@@ -1,0 +1,101 @@
+#search-result {
+	z-index: 10;
+	visibility: hidden;
+	position: absolute;
+	right: 12px;
+	left: 12px;
+}
+
+#results {
+	max-height: 202px;
+	overflow-y: auto;
+	/*-ms-overflow-style: none;
+	scrollbar-width: none;*/
+}
+
+body {
+	-ms-overflow-style: none;
+	scrollbar-width: none;	
+}
+
+body::-webkit-scrollbar {
+	display: none;
+}
+
+/*#results::-webkit-scrollbar {
+	display: none;
+}*/
+
+#clock {
+	margin-right: 20px;
+	color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfild;
+}
+
+#items-table th {
+	font-size: 14px;
+}
+
+#items-table td {
+	font-size: 14px;
+}
+
+.side-items {
+	display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #0d6efd;
+  width: 100%;
+}
+
+.side-items.active {
+	color: white;
+	background-color: #0d6efd;
+}
+
+.side-items i {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.transaction-header {
+	top: 55px;
+	left: 225px;
+	right: 0;
+	padding: 15px;
+	padding-right: 25px;
+	position: fixed;
+	background-color: white;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.total-price {
+	overflow-x: auto;
+	color: grey;
+	background-color: #ddd;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 100px;
+	font-weight: bold;
+}
+
+#payment {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 10px;
+	left: 225px;	
+	right: 0;
+	background-color: #eee;
+}

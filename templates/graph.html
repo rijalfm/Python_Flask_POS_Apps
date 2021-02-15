@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Grafik Penjualan</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <link href="/static/css/all.css" rel="stylesheet">
+	<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+	</style>
+</head>
+
+<body>
+	<nav style="box-shadow: 2px 0 5px rgba(0,0,0,0.3);" class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Point of Sale 1.0</a>
+  </div>
+  <div id="clock" class="">00:00:00</div>
+</nav>
+
+<div style="box-sizing: border-box; position: fixed; top: 0; left: 0; width: 225px; background-color: white; z-index: 1; height: 100vh; box-shadow: 0 2px 5px rgba(0,0,0,0.3); padding-top: 65px;">
+  <a class="side-items" href="/"><i class="fas fa-shopping-cart"></i> Belanja</a>
+  <a class="side-items" href="/data-barang"><i class="fas fa-archive"></i> Data Barang</a>
+  <a class="side-items" href="riwayat-penjualan"><i class="fas fa-history"></i> Riwayat Penjualan</a>
+  <a class="side-items active" href="#"><i class="fas fa-chart-bar"></i> Grafik Penjualan</a>
+</div>
+
+<div style="margin-left: 245px; margin-right: 20px; margin-top: 65px;">
+  <!-- Main content here -->
+  <p class="display-6">Grafik Penjualan</p>
+	<div class="mt-4" style="display: flex;justify-content: center;align-items: center;">
+		<div style="width:90%;">
+		<canvas id="canvas"></canvas>
+	</div>
+	</div>
+</div>
+
+
+
+
+	<script src="/static/js/moment.js"></script>
+	<script src="/static/js/jquery-3.3.1.min.js"></script>
+	<script src="/static/js/Chart.bundle.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/main3.js"></script>
+	<script>
+		$(document).ready(function() {
+			var dataLabels = [];
+			var dataSet = [];
+			var url = 'http://127.0.0.1:5000/api/summary';
+
+			var timeFormat = 'DD/MM/YYYY';
+
+		$.ajax({
+				url: url,
+				method: 'GET',
+				dataType: 'JSON',
+				success: function(data) {
+					for (const x of Object.keys(data)) {
+						var dateTime = new Date(x);
+						dataLabels.push(dateTime);
+					};
+
+					for (const x of Object.values(data)) {
+						dataSet.push(x);
+					};
+
+					var config = {
+				type: 'line',
+				data: {
+					labels: dataLabels, // Date Objects
+					datasets: [{
+						label: "Pendapatan harian",
+						data: dataSet,
+						fill: false,
+					}]
+				},
+				options: {
+					responsive: true,
+					legend: {
+              position: 'top',
+          },
+          hover: {
+              mode: 'label'
+          },
+          title:{
+              display:false,
+              text:"Chart.js Time Scale"
+          },
+					scales: {
+						xAxes: [{
+							type: "time",
+							time: {
+								format: timeFormat,
+								round: 'day',
+								tooltipFormat: 'DD, MMM YYYY'
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Tanggal'
+							}
+						}, ],
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Pendapatan'
+							}
+						}]
+					},
+				}
+			};
+
+			$.each(config.data.datasets, function(i, dataset) {
+				dataset.borderColor = "#0d6efd";
+				dataset.pointBorderColor = "#0d6efd";
+				dataset.pointBackgroundColor = "#0d6efd";
+				dataset.pointBorderWidth = 2;
+			});
+
+				
+		var ctx = document.getElementById("canvas").getContext("2d");
+		window.myLine = new Chart(ctx, config);
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+
+	});
+	</script>
+
+</body>
+
+</html>

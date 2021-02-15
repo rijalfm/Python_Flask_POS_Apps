@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Riwayat Penjualan</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <link href="/static/css/all.css" rel="stylesheet"> <!--load all styles -->
+  </head>
+  
+  <body>
+
+<nav style="box-shadow: 2px 0 5px rgba(0,0,0,0.3);" class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Point of Sale 1.0</a>
+  </div>
+  <div id="clock" class="">00:00:00</div>
+</nav>
+
+<div style="box-sizing: border-box; position: fixed; top: 0; left: 0; width: 225px; background-color: white; z-index: 1; height: 100vh; box-shadow: 0 2px 5px rgba(0,0,0,0.3); padding-top: 65px;">
+  <a class="side-items" href="/"><i class="fas fa-shopping-cart"></i> Belanja</a>
+  <a class="side-items" href="/data-barang"><i class="fas fa-archive"></i> Data Barang</a>
+  <a class="side-items active" href="#"><i class="fas fa-history"></i> Riwayat Penjualan</a>
+  <a class="side-items" href="/grafik-penjualan"><i class="fas fa-chart-bar"></i> Grafik Penjualan</a>
+</div>
+
+<div style="margin-left: 245px; margin-right: 20px; margin-top: 65px;">
+  <!-- Main content here -->
+  <p class="display-6">Riwayat Penjualan</p>
+
+  
+  {% if item %}
+  <a href="/riwayat-penjualan" class="badge rounded-pill bg-danger mb-3" style="text-decoration: none;"><i class="fas fa-arrow-left" style="display: inline-block; margin-right: 5px;"></i> Kembali</a>
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <h4 style="text-decoration: underline;">{{item._id}}</h4>
+      <p><i class="fas fa-calendar-alt"></i> {{item.date.strftime('%d/%m/%Y %X')}}</p>
+    </div>
+    <div class="col-md-4">
+      <h1>Total: Rp. <span id="total">{{'{0:,}'.format(item.total)}}</span></h1>
+    </div>
+
+    <div class="">
+    <table id="items-table" class="table table-striped table-bordered table-hover mb-3">
+      <thead>
+        <th class="text-center">ID Barang</th>
+        <th class="text-center">Nama Barang</th>
+        <th class="text-center">Jumlah</th>
+        <th class="text-center">Diskon</th>
+        <th class="text-center">Total</th>
+      </thead>
+      <tbody>
+        {% for x in item['items'].keys() %}
+          <tr>
+            <td scope="col">{{x}}</td>
+            <td scope="col">{{item['items'][x]['name']}}</td>
+            <td scope="col" class="text-center">{{item['items'][x]['count']}}</td>
+            <td scope="col" style="text-align: right;">{{'{0:,}'.format(item['items'][x]['discount'])}}</td>
+            <td scope="col" style="text-align: right;">{{'{0:,}'.format(item['items'][x]['total'])}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  {% endif %}
+
+
+  {% if datas %}
+
+  <form class="row mb-2">
+     <div class="row mb-2">
+       <div class="col-md-6">
+          <label for="from" class="form-label">Dari</label>
+          <input type="date" class="form-control" id="from" name="from" required>
+        </div>
+        <div class="col-md-6">
+          <label for="to" class="form-label">Sampai</label>
+          <input type="date" class="form-control" id="to" name="to" required>
+        </div>
+     </div>
+     <div class="mb-2">
+      <button type="submit" class="btn btn-primary">Filter</button>
+     </div>
+  </form>
+
+  <div>
+  <table id="items-table" class="table table-bordered table-hover mb-3">
+    <thead>
+      <th class="text-center">ID Transaksi</th>
+      <th class="text-center">Tanggal</th>
+      <th class="text-center">Jumlah Item</th>
+      <th class="text-center">Total</th>
+    </thead>
+    <tbody>
+      {% for x in datas %}
+      <tr>
+        <td scope="col"><a href="?id={{x._id}}" class="badge rounded-pill bg-success" style="text-decoration: none;">Lihat</a> {{x._id}}</td>
+        <td scope="col">{{x.date.strftime('%d/%m/%Y %X')}}</td>
+        <td scope="col" style="text-align: right;">{{x.item_count}}</td>
+        <td scope="col" style="text-align: right;">{{'{0:,}'.format(x.total)}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+    {% endif %}
+</div>
+
+
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/main3.js"></script>
+  </body>
+
+</html>
