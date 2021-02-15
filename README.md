@@ -4,7 +4,7 @@ Point of Sale Web Based using Python Flask and MongoDB for database.
 ### Features:
 * Inventory
 * Transaction record
-* Daily graph transaction
+* Daily transaction graph
 
 ![alt text](https://github.com/rijalfm/Python_Flask_POS_Apps/blob/main/img1.jpg?raw=true)
 ![alt text](https://github.com/rijalfm/Python_Flask_POS_Apps/blob/main/img.jpg?raw=true)
