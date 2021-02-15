@@ -3,5 +3,5 @@
 Point of Sale Web Based using Python Flask.
 ### Features:
 * Inventory
-* Transaction Record
-* Daily Graph Transaction
+* Transaction record
+* Daily graph transaction
